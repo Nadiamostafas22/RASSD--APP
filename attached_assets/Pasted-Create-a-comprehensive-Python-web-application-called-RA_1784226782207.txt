@@ -1,0 +1,37 @@
+Create a comprehensive Python web application called "RASSD: Risk Analysis & Supply Status Dashboard" using Streamlit for the frontend. 
+
+The application must allow users to upload a CSV file (supporting the "High-Dimensional Supply Chain Inventory Dataset" format from Kaggle) with columns: SKU, Inventory Levels, Units Sold, Price, Cost, Supplier, and Date.
+
+Implement the following core modules strictly aligned with the SANAD AI architecture:
+
+1. Data Upload & Demo Mode:
+   - Provide an upload button for the Kaggle CSV.
+   - Include a "Use Demo Mock Data" button so the app runs instantly with realistic pre-loaded supply chain data.
+
+2. RASSD Predictive Triage Engine:
+   - Calculate average Daily Sales Velocity (mean of Units Sold) and "Days of Cover" (Current Inventory Levels / Daily Sales Velocity).
+   - Categorize each SKU into 3 Risk Tiers:
+     * CRITICAL RISK (Days of Cover < 2 days): Automatically schedule the nearest replenishment order date with the supplier AND trigger simulated urgent alerts to both the Warehouse Manager and the Supplier.
+     * MODERATE RISK (Stagnant stock / High Inventory but near-zero sales): Display a checkbox/toggle: "Share analysis results with Supplier?". If checked, prompt/send a notification to both the Retailer and the Supplier. If unchecked, keep it internal.
+     * LOW RISK (Healthy stock): Generate a reassuring "System Healthy" email template with proactive, empowering inventory advice for warehouse staff.
+
+3. Simulated Gemini AI Explainable Triage (7-Section Breakdown):
+   - For any selected SKU, generate a transparent, simulated Gemini AI explainable analysis split into exactly 7 sections:
+     1. Risk Level Classification (Critical/Moderate/Low)
+     2. Velocity Trend (Current sales momentum)
+     3. Financial Exposure (Capital tied up or potential stockout loss)
+     4. Lead Time & Nearest Supplier Scheduling Recommendation
+     5. Action Justification (Why this decision was made)
+     6. Proactive Mitigation Step
+     7. Triage Confidence Score (%)
+
+4. Meticulous Logging System (Google Sheets Simulator):
+   - Design a dedicated "Google Sheets Logs" tab showing a structured table of all triggered actions.
+   - Every log entry must record: SKU, Action Type, Recipient, Timestamp, and "Delivery Status".
+   - Introduce a built-in "Delivery Error Check" that randomly simulates a delivery error (e.g., "API Connection Timeout - Retrying" or "Failed - Invalid Email") alongside "Success" statuses to test system resilience.
+   - Include a button to download this log table as an Excel/CSV file.
+
+5. Executive Visual Dashboard:
+   - Modern, professional UI.
+   - Top KPIs: Total SKUs, Critical Alerts (Pending Action), Capital at Risk, and Active Automation Tasks.
+   - Interactive Plotly charts: A horizontal bar chart of the top 10 most critical SKUs and a pie chart representing the overall risk distribution.

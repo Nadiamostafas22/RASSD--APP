@@ -1,36 +1,38 @@
-# [Project name]
+# RASSD — Risk Analysis & Supply Status Dashboard
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A comprehensive supply chain risk management platform built with Streamlit, implementing the SANAD AI architecture for predictive inventory triage, AI explainability, and automated alerting.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `streamlit run app.py --server.port 5000` — run the dashboard (managed by "RASSD Dashboard" workflow)
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Python 3.13 + Streamlit 1.59
+- Plotly for interactive charts
+- Pandas for data processing
+- XlsxWriter / openpyxl for Excel export
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `app.py` — single-file Streamlit application (all modules)
+- `.streamlit/config.toml` — server configuration (port 5000, headless)
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Single-file app for simplicity; all tabs are functions called from `main()`
+- Session state (`st.session_state`) holds uploaded data, triage results, action logs, and share flags across reruns
+- Demo data generates 50 SKUs × 90 days with varied risk profiles (critical/moderate/healthy) seeded for reproducibility
+- Triage engine uses `Days of Cover = Inventory / Daily Sales Velocity` with configurable thresholds
+- Confidence scores are deterministic per tier with ±3% random jitter for realism
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- **Data Upload & Demo Mode** — CSV upload or one-click demo with 50 pre-built SKUs
+- **RASSD Predictive Triage Engine** — Critical/Moderate/Low classification with auto-scheduling and alert simulation
+- **Simulated Gemini AI Analysis** — 7-section explainable triage per SKU with confidence gauge
+- **Google Sheets Log Simulator** — full audit trail with delivery error simulation, CSV/Excel export
+- **Executive Dashboard** — KPI cards, top-10 critical bar chart, risk distribution pie chart, full SKU table
 
 ## User preferences
 
@@ -38,8 +40,6 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Streamlit reruns on every widget interaction; session_state is essential for persisting computed data
+- `st.rerun()` replaces the deprecated `st.experimental_rerun()`
+- Do not change `.streamlit/config.toml` server section — headless + 0.0.0.0 binding is required for Replit proxy
