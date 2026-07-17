@@ -562,5 +562,5 @@ def main():
         tab_logs()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#    main()
