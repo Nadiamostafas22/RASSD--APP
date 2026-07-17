@@ -553,13 +553,23 @@ def main():
     ])
 
     with tabs[0]:
+    if st.session_state.triage_df is not None:
         tab_dashboard(st.session_state.triage_df)
-    with tabs[1]:
+    else:
+        st.info("👋 أهلاً بك في تطبيق رصد. يرجى رفع ملف البيانات أو اختيار SKU للبدء في التحليل.")
+
+with tabs[1]:
+    if st.session_state.triage_df is not None:
         tab_triage(st.session_state.triage_df)
-    with tabs[2]:
+
+with tabs[2]:
+    if st.session_state.triage_df is not None:
         tab_ai_analysis(st.session_state.triage_df)
-    with tabs[3]:
-        tab_logs()
+    else:
+        st.warning("⚠️ الرجاء اختيار SKU لتوليد تحليل الذكاء الاصطناعي.")
+
+with tabs[3]:
+    tab_logs()
 
 
 # if __name__ == "__main__":
